@@ -3,9 +3,9 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-#include "Handler.hpp"
-#include "Camera.hpp"
-#include "Codex.hpp"
+#include "window/Handler.hpp"
+#include "window/Camera.hpp"
+#include "graphics/Codex.hpp"
 
 #define WIDTH 1920
 #define HEIGHT 1080

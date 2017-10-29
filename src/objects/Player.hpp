@@ -2,11 +2,11 @@
 
 #include <memory>
 #include <vector>
-#include <SFMl/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "GameObject.hpp"
-#include "Handler.hpp"
-#include "Animation.hpp"
+#include "../window/Handler.hpp"
+#include "../graphics/Animation.hpp"
 
 class Handler;
 

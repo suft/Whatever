@@ -3,7 +3,7 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-#include "GameObject.hpp"
+#include "../objects/GameObject.hpp"
 
 class Camera {
 private:

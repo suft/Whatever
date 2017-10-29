@@ -4,9 +4,9 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
-#include "Animation.hpp"
-#include "Tween.hpp"
-#include "Easing.hpp"
+#include "src/graphics/Animation.hpp"
+#include "src/penner/Tween.hpp"
+#include "src/penner/Easing.hpp"
 
 class Character {
 private:

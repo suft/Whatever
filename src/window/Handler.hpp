@@ -4,9 +4,9 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-#include "GameObject.hpp"
-#include "block/Outer.hpp"
-#include "Player.hpp"
+#include "../objects/GameObject.hpp"
+#include "../objects/block/Outer.hpp"
+#include "../objects/Player.hpp"
 
 class Player;
 

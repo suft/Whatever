@@ -7,18 +7,18 @@ set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINKER_FLAGS}")
 
 set(EXECUTABLE_NAME "Whatever")
 set(SOURCE_FILES
-        Main.cpp
-        Codex.cpp Codex.hpp
-        Animation.cpp Animation.hpp
-        Easing.hpp
-        Tween.hpp
-        GameObject.hpp
-        Camera.hpp Camera.cpp
-        block/Block.hpp block/Block.cpp
-        block/Inner.hpp block/Inner.cpp
-        block/Outer.hpp block/Outer.cpp
-        Handler.hpp Handler.cpp
-        Player.hpp Player.cpp)
+        src/Main.cpp
+        src/graphics/Codex.cpp src/graphics/Codex.hpp
+        src/graphics/Animation.cpp src/graphics/Animation.hpp
+        src/penner/Easing.hpp
+        src/penner/Tween.hpp
+        src/objects/GameObject.hpp
+        src/window/Camera.hpp src/window/Camera.cpp
+        src/objects/block/Block.hpp src/objects/block/Block.cpp
+        src/objects/block/Inner.hpp src/objects/block/Inner.cpp
+        src/objects/block/Outer.hpp src/objects/block/Outer.cpp
+        src/window/Handler.hpp src/window/Handler.cpp
+        src/objects/Player.hpp src/objects/Player.cpp)
 
 set(PLAYER_RESOURCES
         IdleRight.png IdleLeft.png
