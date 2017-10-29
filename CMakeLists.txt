@@ -12,7 +12,6 @@ set(SOURCE_FILES
         Animation.cpp Animation.hpp
         Easing.hpp
         Tween.hpp
-        Character.hpp
         GameObject.hpp
         Camera.hpp Camera.cpp
         block/Block.hpp block/Block.cpp
@@ -21,15 +20,23 @@ set(SOURCE_FILES
         Handler.hpp Handler.cpp
         Player.hpp Player.cpp)
 
+set(PLAYER_RESOURCES
+        IdleRight.png IdleLeft.png
+        WalkRight.png WalkLeft.png
+        RunRight.png RunLeft.png
+        JumpRight.png JumpLeft.png
+        FallRight.png FallLeft.png)
+
+foreach(RESOURCE ${PLAYER_RESOURCES})
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/res/Player/${RESOURCE}
+            ${CMAKE_CURRENT_BINARY_DIR}/${RESOURCE} COPYONLY)
+endforeach(RESOURCE)
+
 add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 REQUIRED COMPONENTS network audio graphics window)
-
-configure_file(res/Professor.png ${CMAKE_CURRENT_BINARY_DIR}/Professor.png COPYONLY)
-configure_file(res/Polya.otf ${CMAKE_CURRENT_BINARY_DIR}/POLYA.otf COPYONLY)
-configure_file(res/Level.png ${CMAKE_CURRENT_BINARY_DIR}/Level.png COPYONLY)
 
 include_directories(${SFML_INCLUDE_DIRS})
 target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES})

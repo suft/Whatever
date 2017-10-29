@@ -11,14 +11,13 @@
 #define HEIGHT 1080
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "The Professor");
+    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Whatever");
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(60);
 
     Handler handler;
     Camera camera;
     handler.loadLevel(*Codex::AcquireImage("Level.png"));
-
 
     auto tp = std::chrono::steady_clock::now();
     while (window.isOpen()) {
