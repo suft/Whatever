@@ -2,8 +2,6 @@
 #include <chrono>
 #include <memory>
 #include <SFML/Graphics.hpp>
-#include <lua5.2/lua.hpp>
-#include <luabind/luabind.hpp>
 
 #include "window/Handler.hpp"
 #include "window/Camera.hpp"
