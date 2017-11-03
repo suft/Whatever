@@ -18,7 +18,7 @@ set(SOURCE_FILES
         src/objects/block/Inner.hpp src/objects/block/Inner.cpp
         src/objects/block/Outer.hpp src/objects/block/Outer.cpp
         src/window/Handler.hpp src/window/Handler.cpp
-        src/objects/Player.hpp src/objects/Player.cpp)
+        src/objects/Player.hpp src/objects/Player.cpp src/game/State.cpp src/game/State.hpp src/game/StateMachine.cpp src/game/StateMachine.hpp src/game/Application.cpp src/game/Application.hpp src/game/SplashState.cpp src/game/SplashState.hpp)
 
 set(PLAYER_RESOURCES
         IdleRight.png IdleLeft.png
