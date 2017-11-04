@@ -1,7 +1,6 @@
 #include "SplashState.hpp"
 
 SplashState::SplashState(StateMachine &machine, sf::RenderWindow &window, bool replace) : State(machine, window, replace) {
-    this->after = nullptr;
     this->text = sf::Text("Sufy Studios", *Codex::AcquireFont("Polya.otf"), 200);
     this->fill = sf::Color::Cyan;
     this->outline = sf::Color(47, 79, 79);
@@ -17,9 +16,10 @@ void SplashState::pause() {}
 
 void SplashState::resume() {}
 
-void SplashState::update() {
+void SplashState::update(float dt) {
     sf::Event event;
     while (window.pollEvent(event)) this->handleEvents(event);
+    if (this->fill.a == 0  and this->outline.a == 0) this->after = std::unique_ptr<PlayState>(new PlayState(this->machine, this->window, true));
     if (this->fill.a > 0) this->fill.a--;
     else this->fill.a = 0;
     if (this->outline.a > 0) this->outline.a--;

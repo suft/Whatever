@@ -36,8 +36,8 @@ void StateMachine::last() {
     this->resume = true;
 }
 
-void StateMachine::update() {
-    this->states.top()->update();
+void StateMachine::update(float dt) {
+    this->states.top()->update(dt);
 }
 
 void StateMachine::render() {

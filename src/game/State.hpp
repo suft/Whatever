@@ -24,7 +24,7 @@ public:
     virtual void pause() = 0;
     virtual void resume() = 0;
 
-    virtual void update() = 0;
+    virtual void update(float dt) = 0;
     virtual void render() = 0;
 
     std::unique_ptr<State> next();

@@ -17,7 +17,7 @@ public:
 
     void run(std::unique_ptr<State> state);
 
-    void update();
+    void update(float dt);
     void render();
 
     void next();
