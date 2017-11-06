@@ -11,19 +11,31 @@ Player::Player(const sf::Vector2f& position, Handler* handler): GameObject(posit
 
 void Player::loadAnimations() {
     this->sprite.setTextureRect({0, 0, 32, 64});
-    this->sprite.scale(1.5f, 1.5f);
+    this->sprite.scale(2.0f, 3.0f);
     this->currentAnimation = AnimationType::IdleRight;
     this->animations = {
-        Animation("IdleRight.png", 0, 0, 32, 64, 1, 10.1f, false),
-        Animation("IdleLeft.png", 0, 0, 32, 64, 1, 10.1f, true),
-        Animation("WalkRight.png", 0, 0, 32, 64, 6, 0.1f, false),
-        Animation("WalkLeft.png", 0, 0, 32, 64, 6, 0.1f, true),
-        Animation("RunRight.png", 0, 0, 32, 64, 6, 0.1f, false),
-        Animation("RunLeft.png", 0, 0, 32, 64, 6, 0.1f, true),
-        Animation("JumpRight.png", 0, 0, 32, 64, 3, 10.1f, false),
-        Animation("JumpLeft.png", 0, 0, 32, 64, 3, 10.1f, true),
-        Animation("FallRight.png", 0, 0, 32, 64, 3, 10.1f, false),
-        Animation("FallLeft.png", 0, 0, 32, 64, 3, 10.1f, true)
+//        Animation("IdleRight.png", 0, 0, 32, 64, 1, 10.1f, false),
+//        Animation("IdleLeft.png", 0, 0, 32, 64, 1, 10.1f, true),
+//        Animation("WalkRight.png", 0, 0, 32, 64, 6, 0.1f, false),
+//        Animation("WalkLeft.png", 0, 0, 32, 64, 6, 0.1f, true),
+//        Animation("RunRight.png", 0, 0, 32, 64, 6, 0.1f, false),
+//        Animation("RunLeft.png", 0, 0, 32, 64, 6, 0.1f, true),
+//        Animation("JumpRight.png", 0, 0, 32, 64, 3, 10.1f, false),
+//        Animation("JumpLeft.png", 0, 0, 32, 64, 3, 10.1f, true),
+//        Animation("FallRight.png", 0, 0, 32, 64, 3, 10.1f, false),
+//        Animation("FallLeft.png", 0, 0, 32, 64, 3, 10.1f, true)
+        Animation("IdleRight.png", 0, 0, 24, 32, 11, 0.1f, false),
+        Animation("IdleLeft.png", 0, 0, 24, 32, 11, 0.1f, true),
+        Animation("WalkRight.png", 0, 0, 22, 33, 13, 0.1f, false),
+        Animation("WalkLeft.png", 0, 0, 22, 33, 13, 0.1f, true),
+        Animation("AttackRight.png", 0, 0, 43, 37, 18, 0.1f, false),
+        Animation("AttackLeft.png", 0, 0, 43, 37, 18, 0.1f, true),
+        Animation("HitRight.png", 0, 0, 30, 32, 8, 0.1f, false),
+        Animation("HitLeft.png", 0, 0, 30, 32, 8, 0.1f, true),
+        Animation("ReactRight.png", 0, 0, 22, 32, 4, 0.1f, false),
+        Animation("ReactLeft.png", 0, 0, 22, 32, 4, 0.1f, true),
+        Animation("DeadRight.png", 0, 0, 33, 32, 15, 0.1f, false),
+        Animation("DeadLeft.png", 0, 0, 33, 32, 15, 0.1f, true),
     };
 }
 
@@ -62,7 +74,7 @@ void Player::update(float dt) {
 
     if (this->velocity.x == 0.0f) {
         if (this->direction < 0) this->currentAnimation = AnimationType::IdleLeft;
-        else if (this->direction > 0) this->currentAnimation = AnimationType::IdleRight;
+        else if (this->direction > 0) this->currentAnimation = AnimationType::AttackRight;
     } else if (this->velocity.x  < 0.0f) {
         this->direction = -1;
         this->currentAnimation = AnimationType::WalkLeft;
@@ -71,15 +83,15 @@ void Player::update(float dt) {
         this->currentAnimation = AnimationType::WalkRight;
     }
 
-    if (this->jumping and this->velocity.y > 0) {
-        if (this->direction < 0) this->currentAnimation = AnimationType::JumpLeft;
-        else if (this->direction > 0) this->currentAnimation = AnimationType::JumpRight;
-    }
-
-    if (this->falling and this->velocity.y < 0) {
-        if (this->direction < 0) this->currentAnimation = AnimationType::FallLeft;
-        else if (this->direction > 0) this->currentAnimation = AnimationType::FallRight;
-    }
+//    if (this->jumping and this->velocity.y > 0) {
+//        if (this->direction < 0) this->currentAnimation = AnimationType::JumpLeft;
+//        else if (this->direction > 0) this->currentAnimation = AnimationType::JumpRight;
+//    }
+//
+//    if (this->falling and this->velocity.y < 0) {
+//        if (this->direction < 0) this->currentAnimation = AnimationType::FallLeft;
+//        else if (this->direction > 0) this->currentAnimation = AnimationType::FallRight;
+//    }
 
     if (this->falling || this->jumping) {
         this->velocity.y += this->gravity;
@@ -95,10 +107,10 @@ void Player::update(float dt) {
 void Player::render(sf::RenderTarget& rt) {
     rt.draw(this->sprite);
     this->renderBody(rt);
-    this->renderTop(rt);
-    this->renderBottom(rt);
-    this->renderRight(rt);
-    this->renderLeft(rt);
+//    this->renderTop(rt);
+//    this->renderBottom(rt);
+//    this->renderRight(rt);
+//    this->renderLeft(rt);
 }
 
 void Player::renderBody(sf::RenderTarget &rt) {

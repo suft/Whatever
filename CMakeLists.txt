@@ -18,7 +18,7 @@ set(SOURCE_FILES
         src/objects/block/Inner.hpp src/objects/block/Inner.cpp
         src/objects/block/Outer.hpp src/objects/block/Outer.cpp
         src/window/Handler.hpp src/window/Handler.cpp
-        src/objects/Player.hpp src/objects/Player.cpp src/game/State.cpp src/game/State.hpp src/game/StateMachine.cpp src/game/StateMachine.hpp src/game/Application.cpp src/game/Application.hpp src/game/SplashState.cpp src/game/SplashState.hpp src/game/PlayState.cpp src/game/PlayState.hpp)
+        src/objects/Player.hpp src/objects/Player.cpp src/game/State.cpp src/game/State.hpp src/game/StateMachine.cpp src/game/StateMachine.hpp src/game/Application.cpp src/game/Application.hpp src/game/SplashState.cpp src/game/SplashState.hpp src/game/PlayState.cpp src/game/PlayState.hpp src/game/MenuState.cpp src/game/MenuState.hpp src/gui/Menu.cpp src/gui/Menu.hpp src/gui/Item.cpp src/gui/Item.hpp)
 
 set(PLAYER_RESOURCES
         IdleRight.png IdleLeft.png
@@ -27,8 +27,16 @@ set(PLAYER_RESOURCES
         JumpRight.png JumpLeft.png
         FallRight.png FallLeft.png)
 
-foreach(RESOURCE ${PLAYER_RESOURCES})
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/res/Player/${RESOURCE}
+set(SKELETON_RESOURCES
+        IdleRight.png IdleLeft.png
+        WalkRight.png WalkLeft.png
+        ReactRight.png ReactLeft.png
+        DeadRight.png DeadLeft.png
+        HitRight.png HitLeft.png
+        AttackRight.png AttackLeft.png)
+
+foreach(RESOURCE ${SKELETON_RESOURCES})
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/res/Skeleton/${RESOURCE}
             ${CMAKE_CURRENT_BINARY_DIR}/${RESOURCE} COPYONLY)
 endforeach(RESOURCE)
 

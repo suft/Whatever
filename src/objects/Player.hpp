@@ -15,9 +15,14 @@ private:
     enum class AnimationType {
         IdleRight, IdleLeft,
         WalkRight, WalkLeft,
-        RunRight, RunLeft,
-        JumpRight, JumpLeft,
-        FallRight, FallLeft
+        AttackRight, AttackLeft,
+        HitRight, HitLeft,
+        ReactRight, ReactLeft,
+        DeadRight, DeadLeft
+//        RunRight, RunLeft,
+//        JumpRight, JumpLeft,
+//        FallRight, FallLeft
+
     };
     const float width = 48.0f;
     const float height = 96.0f;
