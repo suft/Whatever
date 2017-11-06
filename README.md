@@ -14,6 +14,17 @@ It's a platformer built using C++ and SFML.
 Contributions are always welcome.  
 To contribute please open an issue first to discuss potential changes/additions.
 
+### Story
+* Greek Mythology, Underworld
+* Charon, the skeleton
+* River Lethe, loses memory
+* The titans are trying to escape tartarus
+* They steal the souls from the underworld to gain power
+* Charon wakes up to find the underworld empty
+* He asks the fates for guidance
+* He has to perform some tasks
+* After completing the tasks he can finally regain the souls from the underworld
+
 ### Todos
 * Game Finite State Machine
 * Joystick/Controller Support
