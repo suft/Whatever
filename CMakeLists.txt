@@ -18,7 +18,7 @@ set(SOURCE_FILES
         src/objects/block/Inner.hpp src/objects/block/Inner.cpp
         src/objects/block/Outer.hpp src/objects/block/Outer.cpp
         src/window/Handler.hpp src/window/Handler.cpp
-        src/objects/Player.hpp src/objects/Player.cpp src/game/State.cpp src/game/State.hpp src/game/StateMachine.cpp src/game/StateMachine.hpp src/game/Application.cpp src/game/Application.hpp src/game/SplashState.cpp src/game/SplashState.hpp src/game/PlayState.cpp src/game/PlayState.hpp src/game/MenuState.cpp src/game/MenuState.hpp src/gui/Menu.cpp src/gui/Menu.hpp src/gui/Item.cpp src/gui/Item.hpp)
+        src/objects/Player.hpp src/objects/Player.cpp src/game/State.cpp src/game/State.hpp src/game/StateMachine.cpp src/game/StateMachine.hpp src/game/Application.cpp src/game/Application.hpp src/game/SplashState.cpp src/game/SplashState.hpp src/game/PlayState.cpp src/game/PlayState.hpp src/game/MenuState.cpp src/game/MenuState.hpp src/gui/Menu.cpp src/gui/Menu.hpp src/gui/Item.cpp src/gui/Item.hpp src/scene/Scene.cpp src/scene/Scene.hpp src/scene/Fragment.cpp src/scene/Fragment.hpp)
 
 set(PLAYER_RESOURCES
         IdleRight.png IdleLeft.png
@@ -45,7 +45,6 @@ add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 REQUIRED COMPONENTS network audio graphics window)
-find_package(Lua REQUIRED)
 
 include_directories(${SFML_INCLUDE_DIRS})
 target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES})

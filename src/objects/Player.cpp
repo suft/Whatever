@@ -3,10 +3,12 @@
 
 Player::Player(float x, float y, Handler* handler): GameObject(x, y), handler(handler) {
     this->loadAnimations();
+    this->attacking = false;
 }
 
 Player::Player(const sf::Vector2f& position, Handler* handler): GameObject(position), handler(handler) {
     this->loadAnimations();
+    this->attacking = false;
 }
 
 void Player::loadAnimations() {
@@ -24,12 +26,12 @@ void Player::loadAnimations() {
 //        Animation("JumpLeft.png", 0, 0, 32, 64, 3, 10.1f, true),
 //        Animation("FallRight.png", 0, 0, 32, 64, 3, 10.1f, false),
 //        Animation("FallLeft.png", 0, 0, 32, 64, 3, 10.1f, true)
-        Animation("IdleRight.png", 0, 0, 24, 32, 11, 0.1f, false),
-        Animation("IdleLeft.png", 0, 0, 24, 32, 11, 0.1f, true),
-        Animation("WalkRight.png", 0, 0, 22, 33, 13, 0.1f, false),
-        Animation("WalkLeft.png", 0, 0, 22, 33, 13, 0.1f, true),
-        Animation("AttackRight.png", 0, 0, 43, 37, 18, 0.1f, false),
-        Animation("AttackLeft.png", 0, 0, 43, 37, 18, 0.1f, true),
+        Animation("IdleRight.png", 0, 0, 24, 32, 11, 0.15f, false),
+        Animation("IdleLeft.png", 0, 0, 24, 32, 11, 0.15f, true),
+        Animation("WalkRight.png", 0, 0, 22, 33, 13, 0.05f, false),
+        Animation("WalkLeft.png", 0, 0, 22, 33, 13, 0.05f, true),
+        Animation("AttackRight.png", 0, 0, 43, 37, 18, 0.05f, false),
+        Animation("AttackLeft.png", 0, 0, 43, 37, 18, 0.05f, true),
         Animation("HitRight.png", 0, 0, 30, 32, 8, 0.1f, false),
         Animation("HitLeft.png", 0, 0, 30, 32, 8, 0.1f, true),
         Animation("ReactRight.png", 0, 0, 22, 32, 4, 0.1f, false),
@@ -74,13 +76,18 @@ void Player::update(float dt) {
 
     if (this->velocity.x == 0.0f) {
         if (this->direction < 0) this->currentAnimation = AnimationType::IdleLeft;
-        else if (this->direction > 0) this->currentAnimation = AnimationType::AttackRight;
-    } else if (this->velocity.x  < 0.0f) {
+        else if (this->direction > 0) this->currentAnimation = AnimationType::IdleRight;
+    } else if (this->velocity.x < 0.0f) {
         this->direction = -1;
         this->currentAnimation = AnimationType::WalkLeft;
-    } else if (this->velocity.x  > 0.0f) {
+    } else if (this->velocity.x > 0.0f) {
         this->direction = 1;
         this->currentAnimation = AnimationType::WalkRight;
+    }
+
+    if (this->attacking) {
+        if (this->direction < 0) this->currentAnimation = AnimationType::AttackLeft;
+        else if (this->direction > 0) this->currentAnimation = AnimationType::AttackRight;
     }
 
 //    if (this->jumping and this->velocity.y > 0) {
@@ -101,7 +108,13 @@ void Player::update(float dt) {
     this->collision();
     this->animations[static_cast<int>(this->currentAnimation)].update(dt);
     this->animations[static_cast<int>(this->currentAnimation)].applyToSprite(sprite);
-    this->sprite.setPosition(this->position);
+    if (this->currentAnimation == AnimationType::AttackRight) {
+        this->sprite.setPosition(this->position.x, this->position.y - 20);
+    } else if (this->currentAnimation == AnimationType::AttackLeft) {
+        this->sprite.setPosition(this->position.x - 30, this->position.y - 20);
+    } else {
+        this->sprite.setPosition(this->position);
+    }
 }
 
 void Player::render(sf::RenderTarget& rt) {
@@ -168,6 +181,13 @@ void Player::renderLeft(sf::RenderTarget &rt) {
     rt.draw(leftwards);
 }
 
+bool Player::attack() {
+    return (
+        sf::Keyboard::isKeyPressed(sf::Keyboard::Space) or
+        (sf::Joystick::isConnected(0) and sf::Joystick::isButtonPressed(0, sf::Joystick::Y))
+    );
+}
+
 bool Player::up() {
     return (
         sf::Keyboard::isKeyPressed(sf::Keyboard::W) or
@@ -201,6 +221,9 @@ void Player::input() {
         this->jumping = true;
         this->setVelocityY(-10.0f);
     }
+
+    if (this->attack()) this->attacking = true;
+    else this->attacking = false;
 }
 
 sf::FloatRect Player::getBounds() {

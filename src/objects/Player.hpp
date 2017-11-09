@@ -28,6 +28,7 @@ private:
     const float height = 96.0f;
     const float gravity = 0.5f;
     const float terminal = 10.0f;
+    bool attacking;
     Handler* handler;
 
     sf::Sprite sprite;
@@ -51,6 +52,7 @@ private:
     void renderRight(sf::RenderTarget& rt);
     void renderLeft(sf::RenderTarget& rt);
 
+    bool attack();
     bool up();
     bool right();
     bool left();
