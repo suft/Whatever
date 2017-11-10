@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.9)
 project(Whatever)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++11")
+set(CMAKE_CXX_COMPILER /usr/bin/clang++)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++14")
 set(CXX_LINKER_FLAGS "-lsfml-graphics -lsfml-window -lsfml-system")
-set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINKER_FLAGS}")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINKER_FLAGS}")
 
 set(EXECUTABLE_NAME "Whatever")
 set(SOURCE_FILES
@@ -42,9 +43,9 @@ endforeach(RESOURCE)
 
 add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 REQUIRED COMPONENTS network audio graphics window)
 
-include_directories(${SFML_INCLUDE_DIRS})
+include_directories(${SFML_INCLUDE_DIR})
 target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES})
