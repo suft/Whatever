@@ -25,4 +25,7 @@ public:
     void render() override;
 private:
     void handleEvents(const sf::Event& event);
+
+    void renderText(sf::RenderTarget& rt);
+    void renderTextBounds(sf::RenderTarget& rt);
 };
