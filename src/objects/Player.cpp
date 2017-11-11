@@ -16,16 +16,6 @@ void Player::loadAnimations() {
     this->sprite.scale(2.0f, 3.0f);
     this->currentAnimation = AnimationType::IdleRight;
     this->animations = {
-//        Animation("IdleRight.png", 0, 0, 32, 64, 1, 10.1f, false),
-//        Animation("IdleLeft.png", 0, 0, 32, 64, 1, 10.1f, true),
-//        Animation("WalkRight.png", 0, 0, 32, 64, 6, 0.1f, false),
-//        Animation("WalkLeft.png", 0, 0, 32, 64, 6, 0.1f, true),
-//        Animation("RunRight.png", 0, 0, 32, 64, 6, 0.1f, false),
-//        Animation("RunLeft.png", 0, 0, 32, 64, 6, 0.1f, true),
-//        Animation("JumpRight.png", 0, 0, 32, 64, 3, 10.1f, false),
-//        Animation("JumpLeft.png", 0, 0, 32, 64, 3, 10.1f, true),
-//        Animation("FallRight.png", 0, 0, 32, 64, 3, 10.1f, false),
-//        Animation("FallLeft.png", 0, 0, 32, 64, 3, 10.1f, true)
         Animation("IdleRight.png", 0, 0, 24, 32, 11, 0.15f, false),
         Animation("IdleLeft.png", 0, 0, 24, 32, 11, 0.15f, true),
         Animation("WalkRight.png", 0, 0, 22, 33, 13, 0.05f, false),
@@ -120,10 +110,10 @@ void Player::update(float dt) {
 void Player::render(sf::RenderTarget& rt) {
     rt.draw(this->sprite);
     this->renderBody(rt);
-//    this->renderTop(rt);
-//    this->renderBottom(rt);
-//    this->renderRight(rt);
-//    this->renderLeft(rt);
+    this->renderTop(rt);
+    this->renderBottom(rt);
+    this->renderRight(rt);
+    this->renderLeft(rt);
 }
 
 void Player::renderBody(sf::RenderTarget &rt) {
