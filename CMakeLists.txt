@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++14")
 set(CXX_LINKER_FLAGS "-lsfml-graphics -lsfml-window -lsfml-system")
-set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINKER_FLAGS}")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINKER_FLAGS}")
 
 set(SOURCE_FILES
         src/Main.cpp
@@ -59,7 +59,8 @@ foreach(RESOURCE ${SKELETON_RESOURCES})
 endforeach(RESOURCE)
 
 find_package(SFML 2 REQUIRED COMPONENTS network audio graphics window)
+include_directories(${SFML_INCLUDE_DIR})
 link_directories(${SFML_LIB_PATH})
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-include_directories(${SFML_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
+
