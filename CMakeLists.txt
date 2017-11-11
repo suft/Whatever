@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.9)
 project(Whatever)
 set(SFML_LIB_PATH /usr/local/lib)
 
-
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
@@ -32,7 +31,7 @@ set(SOURCE_FILES
         src/gui/Menu.cpp src/gui/Menu.hpp
         src/gui/Item.cpp src/gui/Item.hpp
         src/scene/Scene.cpp src/scene/Scene.hpp
-        src/scene/Fragment.cpp src/scene/Fragment.hpp)
+        src/scene/Fragment.cpp src/scene/Fragment.hpp src/Flags.hpp)
 
 
 set(OTHER_RESOURCES
@@ -58,9 +57,10 @@ foreach(RESOURCE ${SKELETON_RESOURCES})
 
 endforeach(RESOURCE)
 
+add_definitions(-DBUILD_${CMAKE_BUILD_TYPE})
+message(STATUS "BUILDTYPE:" ${BUILD_TYPE})
 find_package(SFML 2 REQUIRED COMPONENTS network audio graphics window)
 include_directories(${SFML_INCLUDE_DIR})
 link_directories(${SFML_LIB_PATH})
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
-

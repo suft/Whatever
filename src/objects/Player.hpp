@@ -7,6 +7,7 @@
 #include "GameObject.hpp"
 #include "../window/Handler.hpp"
 #include "../graphics/Animation.hpp"
+#include "../Flags.hpp"
 
 class Handler;
 
