@@ -2,9 +2,8 @@
 
 #include "StateMachine.hpp"
 #include "SplashState.hpp"
+#include "../Flags.hpp"
 
-#define WIDTH 1920
-#define HEIGHT 1080
 
 class Application {
 private:

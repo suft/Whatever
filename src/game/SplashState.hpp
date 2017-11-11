@@ -7,9 +7,8 @@
 #include "State.hpp"
 #include "PlayState.hpp"
 #include "../graphics/Codex.hpp"
+#include "../Flags.hpp"
 
-#define WIDTH 1920
-#define HEIGHT 1080
 
 class SplashState: public State {
 private:

@@ -109,11 +109,14 @@ void Player::update(float dt) {
 
 void Player::render(sf::RenderTarget& rt) {
     rt.draw(this->sprite);
-    this->renderBody(rt);
-    this->renderTop(rt);
-    this->renderBottom(rt);
-    this->renderRight(rt);
-    this->renderLeft(rt);
+    
+    if (DEBUGGING) {
+        this->renderBody(rt);
+        this->renderTop(rt);
+        this->renderBottom(rt);
+        this->renderRight(rt);
+        this->renderLeft(rt);
+    }
 }
 
 void Player::renderBody(sf::RenderTarget &rt) {
