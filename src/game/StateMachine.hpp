@@ -13,6 +13,7 @@ public:
     StateMachine();
 
     bool isRunning();
+
     void quit();
 
     void run(std::unique_ptr<State> state);

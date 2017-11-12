@@ -61,6 +61,7 @@ if(SFML_STATIC_LIBRARIES)
 endif()
 
 # define the list of search paths for headers and libraries
+
 set(FIND_SFML_PATHS
         ${SFML_ROOT}
         $ENV{SFML_ROOT}
@@ -74,6 +75,10 @@ set(FIND_SFML_PATHS
         /opt/csw
         /opt
         /usr/local/include/)
+
+if(MSVC)
+list(APPEND ${FIND_SFML_PATHS} ${CMAKE_SOURCE_DIR}/../Libraries/SFML-2.4.2)
+endif(MSVC)
 
 # find the SFML include directory
 find_path(SFML_INCLUDE_DIR SFML/Config.hpp
