@@ -1,6 +1,9 @@
 #include "Animation.hpp"
 
-Animation::Animation(std::string name, int x, int y, int width, int height, int length, float hold, bool backwards) {
+Animation::Animation(std::string name, int x, int y, int width, int height, int length, float hold, bool backwards, bool loop, Callback callback) {
+    this->loop = loop;
+    this->complete = false;
+    this->callback = callback;
     this->backwards = backwards;
     this->length = length;
     this->hold = hold;
@@ -27,9 +30,29 @@ void Animation::update(float dt) {
 }
 
 void Animation::previous() {
-    if (--this->current <= 0) this->current = this->length - 1;
+    if (not this->complete) --this->current;
+    if (this->current <= 0) {
+        if (this->loop) this->current = this->length - 1;
+        else {
+            this->complete = true;
+            this->callback();
+        }
+    }
 }
 
 void Animation::next() {
-    if (++this->current >= this->length) this->current = 0;
+    if(not this->complete) ++this->current;
+    if (this->current >= this->length) {
+        if (this->loop) this->current = 0;
+        else {
+            this->complete = true;
+            this->callback();
+        }
+    }
+}
+
+void Animation::reset() {
+    if (this->backwards) this->current = this->length - 1;
+    else this->current = 0;
+    this->complete = false;
 }

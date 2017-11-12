@@ -16,18 +16,18 @@ void Player::loadAnimations() {
     this->sprite.scale(2.0f, 3.0f);
     this->currentAnimation = AnimationType::IdleRight;
     this->animations = {
-        Animation("IdleRight.png", 0, 0, 24, 32, 11, 0.15f, false),
-        Animation("IdleLeft.png", 0, 0, 24, 32, 11, 0.15f, true),
-        Animation("WalkRight.png", 0, 0, 22, 33, 13, 0.05f, false),
-        Animation("WalkLeft.png", 0, 0, 22, 33, 13, 0.05f, true),
-        Animation("AttackRight.png", 0, 0, 43, 37, 18, 0.05f, false),
-        Animation("AttackLeft.png", 0, 0, 43, 37, 18, 0.05f, true),
-        Animation("HitRight.png", 0, 0, 30, 32, 8, 0.1f, false),
-        Animation("HitLeft.png", 0, 0, 30, 32, 8, 0.1f, true),
-        Animation("ReactRight.png", 0, 0, 22, 32, 4, 0.1f, false),
-        Animation("ReactLeft.png", 0, 0, 22, 32, 4, 0.1f, true),
-        Animation("DeadRight.png", 0, 0, 33, 32, 15, 0.1f, false),
-        Animation("DeadLeft.png", 0, 0, 33, 32, 15, 0.1f, true),
+        Animation("IdleRight.png", 0, 0, 24, 32, 11, 0.15f, false, true, [](){}),
+        Animation("IdleLeft.png", 0, 0, 24, 32, 11, 0.15f, true, true, [](){}),
+        Animation("WalkRight.png", 0, 0, 22, 33, 13, 0.05f, false, true, [](){}),
+        Animation("WalkLeft.png", 0, 0, 22, 33, 13, 0.05f, true, true, [](){}),
+        Animation("AttackRight.png", 0, 0, 43, 37, 18, 0.05f, false, false, std::bind(&Player::attackComplete, this)),
+        Animation("AttackLeft.png", 0, 0, 43, 37, 18, 0.05f, true, false, std::bind(&Player::attackComplete, this)),
+        Animation("HitRight.png", 0, 0, 30, 32, 8, 0.1f, false, true, [](){}),
+        Animation("HitLeft.png", 0, 0, 30, 32, 8, 0.1f, true, true, [](){}),
+        Animation("ReactRight.png", 0, 0, 22, 32, 4, 0.1f, false, true, [](){}),
+        Animation("ReactLeft.png", 0, 0, 22, 32, 4, 0.1f, true, true, [](){}),
+        Animation("DeadRight.png", 0, 0, 33, 32, 15, 0.1f, false, true, [](){}),
+        Animation("DeadLeft.png", 0, 0, 33, 32, 15, 0.1f, true, true, [](){}),
     };
 }
 
@@ -80,15 +80,6 @@ void Player::update(float dt) {
         else if (this->direction > 0) this->currentAnimation = AnimationType::AttackRight;
     }
 
-//    if (this->jumping and this->velocity.y > 0) {
-//        if (this->direction < 0) this->currentAnimation = AnimationType::JumpLeft;
-//        else if (this->direction > 0) this->currentAnimation = AnimationType::JumpRight;
-//    }
-//
-//    if (this->falling and this->velocity.y < 0) {
-//        if (this->direction < 0) this->currentAnimation = AnimationType::FallLeft;
-//        else if (this->direction > 0) this->currentAnimation = AnimationType::FallRight;
-//    }
 
     if (this->falling || this->jumping) {
         this->velocity.y += this->gravity;
@@ -109,7 +100,7 @@ void Player::update(float dt) {
 
 void Player::render(sf::RenderTarget& rt) {
     rt.draw(this->sprite);
-    
+
     if (DEBUGGING) {
         this->renderBody(rt);
         this->renderTop(rt);
@@ -216,7 +207,6 @@ void Player::input() {
     }
 
     if (this->attack()) this->attacking = true;
-    else this->attacking = false;
 }
 
 sf::FloatRect Player::getBounds() {
@@ -262,4 +252,9 @@ sf::FloatRect Player::getBoundsLeft() {
         5.0f,
         this->height - 10.0f
     };
+}
+
+void Player::attackComplete() {
+    this->attacking = false;
+    this->animations[static_cast<int>(this->currentAnimation)].reset();
 }
