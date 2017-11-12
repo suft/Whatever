@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <functional>
 
 #include "GameObject.hpp"
 #include "../window/Handler.hpp"
@@ -43,7 +44,7 @@ public:
     sf::FloatRect getBounds() override;
 private:
     void loadAnimations();
-
+    void attackComplete();
     void renderBody(sf::RenderTarget& rt);
     void renderTop(sf::RenderTarget& rt);
     void renderBottom(sf::RenderTarget& rt);
