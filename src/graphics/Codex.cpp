@@ -4,6 +4,7 @@ std::unordered_map<std::string, std::shared_ptr<sf::Texture>> Codex::textures;
 std::unordered_map<std::string, std::shared_ptr<sf::Image>> Codex::images;
 std::unordered_map<std::string, std::shared_ptr<sf::Font>> Codex::fonts;
 std::unordered_map<std::string, std::shared_ptr<sf::SoundBuffer>> Codex::sounds;
+std::unordered_map<std::string, std::shared_ptr<nlohmann::json>> Codex::jsons;
 
 std::shared_ptr<sf::Texture> Codex::AcquireTexture(const std::string& name) {
     const auto i = textures.find(name);
@@ -50,6 +51,18 @@ std::shared_ptr<sf::SoundBuffer> Codex::AcquireSound(const std::string& name) {
 }
 
 
+std::shared_ptr<nlohmann::json> Codex::AcquireJson(const std::string &name) {
+    const auto i = jsons.find(name);
+    if (i != jsons.end()) return i->second;
+    else {
+        auto json = std::make_shared<nlohmann::json>();
+        std::ifstream ifs(name);
+        ifs >> *json;
+        jsons.insert({name, json});
+        return json;
+    }
+}
+
 void Codex::Clean() {
     Codex::CleanTextures();
     Codex::CleanImages();
@@ -81,6 +94,13 @@ void Codex::CleanFonts() {
 void Codex::CleanSounds() {
     for (auto i = sounds.begin(); i != sounds.end();) {
         if (i->second.unique()) i = sounds.erase(i);
+        else ++i;
+    }
+}
+
+void Codex::CleanJsons() {
+    for (auto i = jsons.begin(); i !=  jsons.end()) {
+        if (i->second.unique()) i = jsons.erase(i);
         else ++i;
     }
 }
