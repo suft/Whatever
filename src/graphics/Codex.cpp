@@ -99,7 +99,7 @@ void Codex::CleanSounds() {
 }
 
 void Codex::CleanJsons() {
-    for (auto i = jsons.begin(); i !=  jsons.end()) {
+    for (auto i = jsons.begin(); i !=  jsons.end();) {
         if (i->second.unique()) i = jsons.erase(i);
         else ++i;
     }
