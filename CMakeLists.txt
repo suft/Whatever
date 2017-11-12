@@ -31,7 +31,8 @@ set(SOURCE_FILES
         src/gui/Menu.cpp src/gui/Menu.hpp
         src/gui/Item.cpp src/gui/Item.hpp
         src/scene/Scene.cpp src/scene/Scene.hpp
-        src/scene/Fragment.cpp src/scene/Fragment.hpp src/Flags.hpp)
+        src/scene/Fragment.cpp src/scene/Fragment.hpp
+        src/Flags.hpp)
 
 
 set(OTHER_RESOURCES
@@ -54,13 +55,12 @@ set(SKELETON_RESOURCES
 foreach(RESOURCE ${SKELETON_RESOURCES})
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/res/Skeleton/${RESOURCE}
             ${CMAKE_CURRENT_BINARY_DIR}/${RESOURCE} COPYONLY)
-
 endforeach(RESOURCE)
 
 add_definitions(-DBUILD_${CMAKE_BUILD_TYPE})
 message(STATUS "BUILDTYPE:" ${BUILD_TYPE})
 find_package(SFML 2 REQUIRED COMPONENTS network audio graphics window)
-include_directories(${SFML_INCLUDE_DIR})
+include_directories(${SFML_INCLUDE_DIR} include)
 link_directories(${SFML_LIB_PATH})
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
