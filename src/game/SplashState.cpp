@@ -28,10 +28,26 @@ void SplashState::update(float dt) {
 
 void SplashState::render() {
     this->window.clear();
+    this->renderText(this->window);
+    if (DEBUGGING) this->renderTextBounds(this->window);
+    this->window.display();
+}
+
+void SplashState::renderText(sf::RenderTarget &rt) {
     this->text.setFillColor(this->fill);
     this->text.setOutlineColor(this->outline);
-    this->window.draw(this->text);
-    this->window.display();
+    rt.draw(this->text);
+}
+
+void SplashState::renderTextBounds(sf::RenderTarget &rt) {
+    sf::RectangleShape body;
+    sf::FloatRect bounds = this->text.getGlobalBounds();
+    body.setSize({bounds.width, bounds.height});
+    body.setOutlineThickness(1.0f);
+    body.setOutlineColor(sf::Color::Green);
+    body.setFillColor(sf::Color::Transparent);
+    body.setPosition(bounds.left, bounds.top);
+    rt.draw(body);
 }
 
 void SplashState::handleEvents(const sf::Event &event) {
