@@ -15,7 +15,7 @@ void Handler::loadLevel(const sf::Image& image) {
             sf::Color color = image.getPixel(xx, yy);
             sf::Color white = {255, 255, 255};
             sf::Color blue = {0, 0, 255};
-            if (color == white) this->addObject(std::make_shared<Outer>(xx*32, yy*32));
+            if (color == white) this->addObject(std::make_shared<Block>(xx*32, yy*32, true));
             if (color == blue) this->addObject(std::make_shared<Player>(xx*32, yy*32, this));
         }
     }

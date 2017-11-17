@@ -1,8 +1,8 @@
 #include "Block.hpp"
 
-Block::Block(float x, float y): GameObject(x, y) {}
+Block::Block(float x, float y, bool collidable): GameObject(x, y), collidable(collidable) {}
 
-Block::Block(const sf::Vector2f &position): GameObject(position) {}
+Block::Block(const sf::Vector2f &position, bool collidable): GameObject(position), collidable(collidable) {}
 
 sf::FloatRect Block::getBounds() {
     return {
@@ -21,5 +21,9 @@ void Block::render(sf::RenderTarget& rt) {
     bounds.setFillColor(sf::Color::Transparent);
     bounds.setPosition(this->position);
     rt.draw(bounds);
+}
+
+bool Block::isCollidable() const {
+    return collidable;
 }
 

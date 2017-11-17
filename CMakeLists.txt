@@ -18,8 +18,6 @@ set(SOURCE_FILES
         src/objects/GameObject.hpp
         src/window/Camera.hpp src/window/Camera.cpp
         src/objects/block/Block.hpp src/objects/block/Block.cpp
-        src/objects/block/Inner.hpp src/objects/block/Inner.cpp
-        src/objects/block/Outer.hpp src/objects/block/Outer.cpp
         src/window/Handler.cpp src/window/Handler.hpp
         src/objects/Player.cpp src/objects/Player.hpp
         src/game/State.cpp src/game/State.hpp
