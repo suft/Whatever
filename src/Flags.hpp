@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 
 #if defined(BUILD_Debug)
 #define DEBUGGING          true
@@ -9,3 +8,5 @@
 
 #define WIDTH               1920
 #define HEIGHT              1080
+#define DIMENSIONS          sf::Vector2f(1920, 1080)
+#define ORIGIN              sf::Vector2f(0, 0)
