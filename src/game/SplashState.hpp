@@ -8,13 +8,15 @@
 #include "PlayState.hpp"
 #include "../graphics/Codex.hpp"
 #include "../Flags.hpp"
+#include "../penner/Fader.hpp"
 
 
 class SplashState: public State {
 private:
-    sf::Text text;
-    sf::Color fill;
-    sf::Color outline;
+    float duration;
+    sf::Color background;
+    sf::Sprite logo;
+    Fader fader;
 public:
     SplashState(StateMachine &machine, sf::RenderWindow &window, bool replace);
 
@@ -26,6 +28,6 @@ public:
 private:
     void handleEvents(const sf::Event& event);
 
-    void renderText(sf::RenderTarget& rt);
-    void renderTextBounds(sf::RenderTarget& rt);
+    void swapFader();
+    void renderLogo(sf::RenderTarget& rt);
 };

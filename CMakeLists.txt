@@ -30,10 +30,12 @@ set(SOURCE_FILES
         src/gui/Item.cpp src/gui/Item.hpp
         src/scene/Scene.cpp src/scene/Scene.hpp
         src/scene/Fragment.cpp src/scene/Fragment.hpp
-        src/Flags.hpp)
+        src/Flags.hpp src/utils/Misc.hpp
+        src/penner/Fader.cpp src/penner/Fader.hpp)
 
 
 set(OTHER_RESOURCES
+        Logo.png
         Level.png
         Polya.otf)
 
