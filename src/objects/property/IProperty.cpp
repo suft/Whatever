@@ -1,19 +1,12 @@
 #include "IProperty.hpp"
 
-IProperty::IProperty(std::string type, std::string id): type(type), id(id) {}
+IProperty::IProperty(std::string type, const std::string id): type(type), id(id) {}
 
-std::shared_ptr<IProperty::T> IProperty::getType() {
-    return std::shared_ptr<IProperty::T>(&this->type);
-}
+IProperty::~IProperty() {}
 
-const std::string IProperty::getID() const {
-    return this->id;
-}
+IProperty::T* IProperty::getType() { return &this->type; }
 
-void IProperty::setType(std::string type) {
-    this->type = T(type);
-}
+const std::string IProperty::getID() const { return this->id; }
 
-
-
+void IProperty::setType(std::string type) { this->type = T(type); }
 
