@@ -2,17 +2,22 @@
 
 #include "IProperty.hpp"
 
-template<class T = unsigned int>
-class TProperty : public IProperty {
+template<class TYPE = unsigned int>
+class TProperty: public IProperty {
 private:
-    T value;
+    TYPE value;
 public:
-    TProperty(const std::string &id) : IProperty(typeid(T).name(), id) {}
+    TProperty(const std::string id): IProperty(typeid(TYPE).name(), id) {}
 
-    T getValue() { return this->value; }
-    void setValue(T value) { this->value = value; }
+    TYPE GetValue() { return this->value; }
+
+    void SetValue(TYPE value) { this->value = value; }
 
     void update() {}
 
-    std::shared_ptr<IProperty> clone() {}
+    IProperty* clone() {
+        TProperty<TYPE>* property = new (std::nothrow) TProperty<TYPE>(getID());
+        if (NULL != property) property->SetValue(value);
+        return property;
+    }
 };
