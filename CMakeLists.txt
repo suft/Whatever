@@ -5,7 +5,7 @@ set(SFML_LIB_PATH /usr/local/lib)
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++14")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++14 -v")
 set(CXX_LINKER_FLAGS "-lsfml-graphics -lsfml-window -lsfml-system")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINKER_FLAGS}")
 
@@ -31,7 +31,10 @@ set(SOURCE_FILES
         src/scene/Scene.cpp src/scene/Scene.hpp
         src/scene/Fragment.cpp src/scene/Fragment.hpp
         src/Flags.hpp src/utils/Misc.hpp
-        src/penner/Fader.cpp src/penner/Fader.hpp)
+        src/penner/Fader.cpp src/penner/Fader.hpp
+        src/objects/property/PropertyManager.cpp src/objects/property/PropertyManager.hpp
+        src/objects/property/IProperty.hpp src/objects/property/IProperty.cpp
+        src/objects/property/TProperty.hpp)
 
 
 set(OTHER_RESOURCES
