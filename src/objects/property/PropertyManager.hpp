@@ -16,7 +16,7 @@ public:
     bool has(const std::string id);
 
     template<class TYPE>
-    TYPE get(const std::string id) {
+    TYPE& get(const std::string id) {
         if (this->properties.find(id) != this->properties.end()) {
             if (this->properties.at(id)->getType()->getName() == typeid(TYPE).name()) {
                 return static_cast<TProperty<TYPE> *>(this->properties[id])->getValue();

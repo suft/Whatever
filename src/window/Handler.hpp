@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "../objects/GameObject.hpp"
-#include "../objects/block/Block.hpp"
+#include "../objects/Block.hpp"
 #include "../objects/Player.hpp"
 
 class Player;

@@ -6,9 +6,10 @@ Camera::Camera() {
 
 void Camera::move(std::shared_ptr<GameObject> object) {
     sf::Vector2f center = this->view.getCenter();
+    sf::Vector2f position = object->pm.get<sf::Vector2f>("Position");
     this->view.move(
-        (object->getPositionX() - center.x) * 0.2f,
-        (object->getPositionY() - center.y) * 0.2f
+        (position.x - center.x) * 0.2f,
+        (position.y - center.y) * 0.2f
     );
 }
 

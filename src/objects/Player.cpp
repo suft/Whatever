@@ -1,21 +1,42 @@
 #include "Player.hpp"
-#include <SFML/Window.hpp>
 
-Player::Player(float x, float y, Handler* handler): GameObject(x, y), handler(handler) {
-    this->loadAnimations();
-    this->attacking = false;
+Player::Player(): GameObject() {
+    this->pm.add<float>("Width", 48.0f);
+    this->pm.add<float>("Height", 96.0f);
+    this->pm.add<float>("Gravity", 0.5f);
+    this->pm.add<float>("Terminal", 10.0f);
+    this->pm.add<sf::Vector2f>("Position", sf::Vector2f());
+    this->pm.add<sf::Vector2f>("Velocity", sf::Vector2f({0, 0}));
+    this->pm.add<int>("Direction", 1);
+    this->pm.add<sf::Sprite>("Sprite", sf::Sprite());
+    this->pm.add<bool>("Falling", true);
+    this->pm.add<bool>("Jumping", false);
+    this->pm.add<bool>("Attacking", false);
+    this->pm.add<AnimationType>("CurrentAnimation", AnimationType::IdleRight);
+    this->pm.add<std::vector<Animation>>("Animations", std::vector<Animation>());
 }
 
-Player::Player(const sf::Vector2f& position, Handler* handler): GameObject(position), handler(handler) {
+Player::Player(const sf::Vector2f& position, Handler* handler): GameObject(), handler(handler) {
+    this->pm.add<float>("Width", 48.0f);
+    this->pm.add<float>("Height", 96.0f);
+    this->pm.add<float>("Gravity", 0.5f);
+    this->pm.add<float>("Terminal", 10.0f);
+    this->pm.add<sf::Vector2f>("Position", sf::Vector2f());
+    this->pm.add<sf::Vector2f>("Velocity", sf::Vector2f({0, 0}));
+    this->pm.add<int>("Direction", 1);
+    this->pm.add<sf::Sprite>("Sprite", sf::Sprite());
+    this->pm.add<bool>("Falling", true);
+    this->pm.add<bool>("Jumping", false);
+    this->pm.add<bool>("Attacking", false);
     this->loadAnimations();
-    this->attacking = false;
 }
 
 void Player::loadAnimations() {
-    this->sprite.setTextureRect({0, 0, 32, 64});
-    this->sprite.scale(2.0f, 3.0f);
-    this->currentAnimation = AnimationType::IdleRight;
-    this->animations = {
+    sf::Sprite& sprite = this->pm.get<sf::Sprite>("Sprite");
+    sprite.setTextureRect({0, 0, 32, 64});
+    sprite.scale(2.0f, 3.0f);
+    this->pm.add<AnimationType>("CurrentAnimation", AnimationType::IdleRight);
+    this->pm.add<std::vector<Animation>>("Animations", {
         Animation("IdleRight.png", 0, 0, 24, 32, 11, 0.15f, false, true, [](){}),
         Animation("IdleLeft.png", 0, 0, 24, 32, 11, 0.15f, true, true, [](){}),
         Animation("WalkRight.png", 0, 0, 22, 33, 13, 0.05f, false, true, [](){}),
@@ -28,33 +49,41 @@ void Player::loadAnimations() {
         Animation("ReactLeft.png", 0, 0, 22, 32, 4, 0.1f, true, true, [](){}),
         Animation("DeadRight.png", 0, 0, 33, 32, 15, 0.1f, false, true, [](){}),
         Animation("DeadLeft.png", 0, 0, 33, 32, 15, 0.1f, true, true, [](){}),
-    };
+    });
 }
 
 void Player::collision() {
     for (auto object : this->handler->objects) {
         auto block = std::dynamic_pointer_cast<Block>(object);
         if (block and block->isCollidable()) {
+
+            float y = block->pm.get<sf::Vector2f>("Position").y;
+            float x = block->pm.get<sf::Vector2f>("Position").x;
+            float height = this->pm.get<float>("Height");
+            float width = this->pm.get<float>("Width");
+            sf::Vector2f &position = this->pm.get<sf::Vector2f>("Position");
+            sf::Vector2f &velocity = this->pm.get<sf::Vector2f>("Velocity");
+
             if (this->getBoundsTop().intersects(block->getBounds())) {
-                this->position.y = block->getPositionY() + this->height/3;
-                this->velocity.y = 0.0f;
+                position.y = y + height/3;
+                velocity.y = 0.0f;
             }
 
             if (this->getBoundsBottom().intersects(block->getBounds())) {
-                this->position.y = block->getPositionY() - this->height;
-                this->velocity.y = 0.0f;
-                this->falling = false;
-                this->jumping = false;
+                position.y = y - height;
+                velocity.y = 0.0f;
+                this->pm.set<bool>("Falling", false);
+                this->pm.set<bool>("Jumping", false);
             } else {
-                this->falling = true;
+                this->pm.set<bool>("Falling", true);
             }
 
             if (this->getBoundsRight().intersects(block->getBounds())) {
-                this->position.x = block->getPositionX() - this->width - 2;
+                position.x = x - width - 2;
             }
 
             if (this->getBoundsLeft().intersects(block->getBounds())) {
-                this->position.x = block->getPositionX() + 36.0f;
+                position.x = x + 36.0f;
             }
         }
     }
@@ -62,44 +91,50 @@ void Player::collision() {
 
 void Player::update(float dt) {
     this->input();
-    this->position += this->velocity;
+    sf::Vector2f &position = this->pm.get<sf::Vector2f>("Position");
+    sf::Vector2f &velocity = this->pm.get<sf::Vector2f>("Velocity");
+    int &direction = this->pm.get<int>("Direction");
 
-    if (this->velocity.x == 0.0f) {
-        if (this->direction < 0) this->currentAnimation = AnimationType::IdleLeft;
-        else if (this->direction > 0) this->currentAnimation = AnimationType::IdleRight;
-    } else if (this->velocity.x < 0.0f) {
-        this->direction = -1;
-        this->currentAnimation = AnimationType::WalkLeft;
-    } else if (this->velocity.x > 0.0f) {
-        this->direction = 1;
-        this->currentAnimation = AnimationType::WalkRight;
+    position += velocity;
+
+    if (velocity.x == 0.0f) {
+        if (direction < 0) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::IdleLeft);
+        else if (direction > 0) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::IdleRight);
+    } else if (velocity.x < 0.0f) {
+        direction = -1;
+        this->pm.set<AnimationType>("CurrentAnimation", AnimationType::WalkLeft);
+    } else if (velocity.x > 0.0f) {
+        direction = 1;
+        this->pm.set<AnimationType>("CurrentAnimation", AnimationType::WalkRight);
     }
 
-    if (this->attacking) {
-        if (this->direction < 0) this->currentAnimation = AnimationType::AttackLeft;
-        else if (this->direction > 0) this->currentAnimation = AnimationType::AttackRight;
+    if (this->pm.get<bool>("Attacking")) {
+        if (direction < 0) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::AttackLeft);
+        else if (direction > 0) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::AttackRight);
     }
 
-
-    if (this->falling || this->jumping) {
-        this->velocity.y += this->gravity;
-        if (this->velocity.y > this->terminal) this->velocity.y = this->terminal;
+    if (this->pm.get<bool>("Falling") || this->pm.get<bool>("Jumping")) {
+        velocity.y += this->pm.get<float>("Gravity");
+        float terminal = this->pm.get<float>("Terminal");
+        if (velocity.y > terminal) velocity.y = terminal;
     }
 
     this->collision();
-    this->animations[static_cast<int>(this->currentAnimation)].update(dt);
-    this->animations[static_cast<int>(this->currentAnimation)].applyToSprite(sprite);
-    if (this->currentAnimation == AnimationType::AttackRight) {
-        this->sprite.setPosition(this->position.x, this->position.y - 20);
-    } else if (this->currentAnimation == AnimationType::AttackLeft) {
-        this->sprite.setPosition(this->position.x - 30, this->position.y - 20);
+    AnimationType currentAnimation = this->pm.get<AnimationType>("CurrentAnimation");
+    sf::Sprite& sprite = this->pm.get<sf::Sprite>("Sprite");
+    this->pm.get<std::vector<Animation>>("Animations")[static_cast<int>(currentAnimation)].update(dt);
+    this->pm.get<std::vector<Animation>>("Animations")[static_cast<int>(currentAnimation)].applyToSprite(sprite);
+    if (currentAnimation == AnimationType::AttackRight) {
+        sprite.setPosition(position.x, position.y - 20);
+    } else if (currentAnimation == AnimationType::AttackLeft) {
+        sprite.setPosition(position.x - 30, position.y - 20);
     } else {
-        this->sprite.setPosition(this->position);
+        sprite.setPosition(position);
     }
 }
 
 void Player::render(sf::RenderTarget& rt) {
-    rt.draw(this->sprite);
+    rt.draw(this->pm.get<sf::Sprite>("Sprite"));
 
     if (DEBUGGING) {
         this->renderBody(rt);
@@ -197,64 +232,79 @@ bool Player::left() {
 }
 
 void Player::input() {
-    if (this->right()) this->setVelocityX(5.0f);
-    else if (this->left()) this->setVelocityX(-5.0f);
-    else this->setVelocityX(0.0f);
+    sf::Vector2f& velocity = this->pm.get<sf::Vector2f>("Velocity");
+    if (this->right()) velocity.x = 5.0f;
+    else if (this->left()) velocity.x = -5.0f;
+    else velocity.x = 0.0f;
 
-    if (this->up() and not this->jumping) {
-        this->jumping = true;
-        this->setVelocityY(-10.0f);
+    bool& jumping = this->pm.get<bool>("Jumping");
+    if (this->up() and not jumping) {
+        jumping = true;
+        velocity.y = -10.0f;
     }
 
-    if (this->attack()) this->attacking = true;
+    if (this->attack()) this->pm.set<bool>("Attacking", true);
 }
 
 sf::FloatRect Player::getBounds() {
+    sf::Vector2f position = this->pm.get<sf::Vector2f>("Position");
     return {
-        this->position.x,
-        this->position.y,
-        this->width,
-        this->height
+        position.x,
+        position.y,
+        this->pm.get<float>("Width"),
+        this->pm.get<float>("Height")
     };
 }
 
 sf::FloatRect Player::getBoundsTop() {
+    sf::Vector2f position = this->pm.get<sf::Vector2f>("Position");
+    float width = this->pm.get<float>("Width");
+    float height = this->pm.get<float>("Height");
     return {
-        this->position.x + (this->width/2.0f) - ((this->width/2.0f)/2.0f),
-        this->position.y,
-        this->width/2.0f,
-        this->height/2.0f
+        position.x + (width/2.0f) - ((width/2.0f)/2.0f),
+        position.y,
+        width/2.0f,
+        height/2.0f
     };
 }
 
 sf::FloatRect Player::getBoundsBottom() {
+    sf::Vector2f position = this->pm.get<sf::Vector2f>("Position");
+    float width = this->pm.get<float>("Width");
+    float height = this->pm.get<float>("Height");
     return {
-        this->position.x + (this->width/2.0f) - ((this->width/2.0f)/2.0f),
-        this->position.y + (this->height/2.0f),
-        this->width/2.0f,
-        this->height/2.0f
+        position.x + (width/2.0f) - ((width/2.0f)/2.0f),
+        position.y + (height/2.0f),
+        width/2.0f,
+        height/2.0f
     };
 }
 
 sf::FloatRect Player::getBoundsRight() {
+    sf::Vector2f position = this->pm.get<sf::Vector2f>("Position");
+    float width = this->pm.get<float>("Width");
+    float height = this->pm.get<float>("Height");
     return {
-        this->position.x + this->width - 5.0f,
-        this->position.y + 5.0f,
+        position.x + width - 5.0f,
+        position.y + 5.0f,
         5.0f,
-        this->height -10.0f
+        height -10.0f
     };
 }
 
 sf::FloatRect Player::getBoundsLeft() {
+    sf::Vector2f position = this->pm.get<sf::Vector2f>("Position");
+    float height = this->pm.get<float>("Height");
     return {
-        this->position.x,
-        this->position.y + 5.0f,
+        position.x,
+        position.y + 5.0f,
         5.0f,
-        this->height - 10.0f
+        height - 10.0f
     };
 }
 
 void Player::attackComplete() {
-    this->attacking = false;
-    this->animations[static_cast<int>(this->currentAnimation)].reset();
+    AnimationType currentAnimation = this->pm.get<AnimationType>("CurrentAnimation");
+    this->pm.set<bool>("Attacking", false);
+    this->pm.get<std::vector<Animation>>("Animations")[static_cast<int>(currentAnimation)].reset();
 }

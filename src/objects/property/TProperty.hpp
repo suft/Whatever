@@ -9,7 +9,7 @@ private:
 public:
     TProperty(const std::string id): IProperty(typeid(TYPE).name(), id) {}
 
-    TYPE getValue() { return this->value; }
+    TYPE& getValue() { return this->value; }
 
     void setValue(TYPE value) { this->value = value; }
 

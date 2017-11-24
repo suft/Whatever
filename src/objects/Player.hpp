@@ -23,19 +23,10 @@ private:
         DeadRight, DeadLeft
 
     };
-    const float width = 48.0f;
-    const float height = 96.0f;
-    const float gravity = 0.5f;
-    const float terminal = 10.0f;
-    bool attacking;
-    Handler* handler;
 
-    sf::Sprite sprite;
-    std::vector<Animation> animations;
-    AnimationType currentAnimation;
+    Handler* handler;
 public:
-    Player() = default;
-    Player(float x, float y, Handler* handler);
+    Player();
     Player(const sf::Vector2f& position, Handler* handler);
 
     void update(float dt) override;
