@@ -1,13 +1,13 @@
 #include "Player.hpp"
 
 Player::Player(): GameObject() {
-    this->pm.add<float>("Width", 48.0f);
-    this->pm.add<float>("Height", 96.0f);
-    this->pm.add<float>("Gravity", 0.5f);
-    this->pm.add<float>("Terminal", 10.0f);
+    this->pm.add<float>("Width", playerWidth);
+    this->pm.add<float>("Height", playerHeight);
+    this->pm.add<float>("Gravity", gravity);
+    this->pm.add<float>("Terminal", terminalVelocity);
     this->pm.add<sf::Vector2f>("Position", sf::Vector2f());
     this->pm.add<sf::Vector2f>("Velocity", sf::Vector2f({0, 0}));
-    this->pm.add<int>("Direction", 1);
+    this->pm.add<Direction>("Direction", Direction::right);
     this->pm.add<sf::Sprite>("Sprite", sf::Sprite());
     this->pm.add<bool>("Falling", true);
     this->pm.add<bool>("Jumping", false);
@@ -17,13 +17,13 @@ Player::Player(): GameObject() {
 }
 
 Player::Player(const sf::Vector2f& position, Handler* handler): GameObject(), handler(handler) {
-    this->pm.add<float>("Width", 48.0f);
-    this->pm.add<float>("Height", 96.0f);
-    this->pm.add<float>("Gravity", 0.5f);
-    this->pm.add<float>("Terminal", 10.0f);
+    this->pm.add<float>("Width", playerWidth);
+    this->pm.add<float>("Height", playerHeight);
+    this->pm.add<float>("Gravity", gravity);
+    this->pm.add<float>("Terminal", terminalVelocity);
     this->pm.add<sf::Vector2f>("Position", sf::Vector2f());
     this->pm.add<sf::Vector2f>("Velocity", sf::Vector2f({0, 0}));
-    this->pm.add<int>("Direction", 1);
+    this->pm.add<Direction>("Direction", Direction::right);
     this->pm.add<sf::Sprite>("Sprite", sf::Sprite());
     this->pm.add<bool>("Falling", true);
     this->pm.add<bool>("Jumping", false);
@@ -33,8 +33,8 @@ Player::Player(const sf::Vector2f& position, Handler* handler): GameObject(), ha
 
 void Player::loadAnimations() {
     sf::Sprite& sprite = this->pm.get<sf::Sprite>("Sprite");
-    sprite.setTextureRect({0, 0, 32, 64});
-    sprite.scale(2.0f, 3.0f);
+    sprite.setTextureRect({textureLeft, textureTop, textureWidth, textureHeight});
+    sprite.scale(playerScaleWidth, playerScaleHeight);
     this->pm.add<AnimationType>("CurrentAnimation", AnimationType::IdleRight);
     this->pm.add<std::vector<Animation>>("Animations", {
         Animation("IdleRight.png", 0, 0, 24, 32, 11, 0.15f, false, true, [](){}),
@@ -93,24 +93,24 @@ void Player::update(float dt) {
     this->input();
     sf::Vector2f &position = this->pm.get<sf::Vector2f>("Position");
     sf::Vector2f &velocity = this->pm.get<sf::Vector2f>("Velocity");
-    int &direction = this->pm.get<int>("Direction");
+    Direction &direction = this->pm.get<Direction>("Direction");
 
     position += velocity;
 
     if (velocity.x == 0.0f) {
-        if (direction < 0) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::IdleLeft);
-        else if (direction > 0) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::IdleRight);
+        if (direction == Direction::left) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::IdleLeft);
+        else if (direction == Direction::right) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::IdleRight);
     } else if (velocity.x < 0.0f) {
-        direction = -1;
+        direction = Direction::left;
         this->pm.set<AnimationType>("CurrentAnimation", AnimationType::WalkLeft);
     } else if (velocity.x > 0.0f) {
-        direction = 1;
+        direction = Direction::right;
         this->pm.set<AnimationType>("CurrentAnimation", AnimationType::WalkRight);
     }
 
     if (this->pm.get<bool>("Attacking")) {
-        if (direction < 0) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::AttackLeft);
-        else if (direction > 0) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::AttackRight);
+        if (direction == Direction::left) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::AttackLeft);
+        else if (direction == Direction::right) this->pm.set<AnimationType>("CurrentAnimation", AnimationType::AttackRight);
     }
 
     if (this->pm.get<bool>("Falling") || this->pm.get<bool>("Jumping")) {

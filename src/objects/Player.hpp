@@ -9,6 +9,7 @@
 #include "../window/Handler.hpp"
 #include "../graphics/Animation.hpp"
 #include "../Flags.hpp"
+#include "../constTypes.hpp"
 
 class Handler;
 
@@ -23,7 +24,10 @@ private:
         DeadRight, DeadLeft
 
     };
-
+    enum class Direction {
+        right,
+        left
+    };
     Handler* handler;
 public:
     Player();

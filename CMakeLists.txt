@@ -34,7 +34,8 @@ set(SOURCE_FILES
         src/penner/Fader.cpp src/penner/Fader.hpp
         src/objects/property/PropertyManager.cpp src/objects/property/PropertyManager.hpp
         src/objects/property/IProperty.hpp src/objects/property/IProperty.cpp
-        src/objects/property/TProperty.hpp)
+        src/objects/property/TProperty.hpp
+        src/constTypes.hpp)
 
 
 set(OTHER_RESOURCES
