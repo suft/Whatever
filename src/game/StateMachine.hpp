@@ -12,7 +12,7 @@ private:
 public:
     StateMachine();
 
-    bool isRunning();
+    bool isRunning() const;
     void quit();
 
     void run(std::unique_ptr<State> state);

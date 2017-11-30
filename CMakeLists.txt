@@ -31,7 +31,7 @@ set(SOURCE_FILES
         src/scene/Scene.cpp src/scene/Scene.hpp
         src/scene/Fragment.cpp src/scene/Fragment.hpp
         src/Flags.hpp src/utils/Misc.hpp
-        src/penner/Fader.cpp src/penner/Fader.hpp src/objects/objectState/EntityStateMachine.hpp src/objects/objectState/DeadState.hpp src/objects/objectState/CastState.cpp src/objects/objectState/CastState.hpp src/objects/objectState/EntityState.cpp src/objects/objectState/EntityState.hpp src/objects/objectState/NormalState.cpp src/objects/objectState/NormalState.hpp)
+        src/penner/Fader.cpp src/penner/Fader.hpp src/objects/objectState/DeadState.hpp src/objects/objectState/CastState.cpp src/objects/objectState/CastState.hpp src/objects/objectState/EntityState.cpp src/objects/objectState/EntityState.hpp src/objects/objectState/NormalState.cpp src/objects/objectState/NormalState.hpp src/objects/objectState/EntityStateMachine.cpp src/objects/objectState/EntityStateMachine.hpp)
 
 
 set(OTHER_RESOURCES

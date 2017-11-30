@@ -7,7 +7,7 @@ void StateMachine::run(std::unique_ptr<State> state) {
     this->states.push(std::move(state));
 }
 
-bool StateMachine::isRunning() {
+bool StateMachine::isRunning() const {
     return this->running;
 }
 
