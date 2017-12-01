@@ -1,14 +1,15 @@
 cmake_minimum_required(VERSION 3.9)
 project(Whatever)
-set(SFML_LIB_PATH /usr/local/lib)
 
-set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+if(APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++14")
+endif(APPLE)
+
+set(SFML_LIB_PATH /usr/local/lib)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++14")
 set(CXX_LINKER_FLAGS "-lsfml-graphics -lsfml-window -lsfml-system")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CXX_LINKER_FLAGS}")
-
 set(SOURCE_FILES
         src/Main.cpp
         src/graphics/Codex.cpp src/graphics/Codex.hpp
@@ -32,7 +33,6 @@ set(SOURCE_FILES
         src/scene/Fragment.cpp src/scene/Fragment.hpp
         src/Flags.hpp src/utils/Misc.hpp
         src/penner/Fader.cpp src/penner/Fader.hpp)
-
 
 set(OTHER_RESOURCES
         Logo.png
